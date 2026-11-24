@@ -1,0 +1,26 @@
+OK  m1   customers       1,200,000 dòng (CSV: 1,200,000)  checksum=720000600000/26488896/2022-01-01/2025-12-30
+OK  m1   products        1,100,000 dòng (CSV: 1,100,000)  checksum=605000550000/36432222.07/20750683
+OK  m1   orders          2,000,000 dòng (CSV: 2,000,000)  checksum=1199825819086/1399785/2025-12-30
+OK  m1   order_items     5,000,000 dòng (CSV: 5,000,000)  checksum=496786652.04/1834847893079/5000002000000
+OK  m1   reviews         1,500,000 dòng (CSV: 1,500,000)  checksum=5985172/376051/824913626040
+OK  m1   events         12,000,000 dòng (CSV: 12,000,000)  checksum=72000006000000/1200625/5940019892959/2025-12-30 23:59:46
+OK  m2   customers       1,200,000 dòng (CSV: 1,200,000)  checksum=720000600000/26488896/2022-01-01/2025-12-30
+OK  m2   products        1,100,000 dòng (CSV: 1,100,000)  checksum=605000550000/36432222.07/20750683
+OK  m2   orders          2,000,000 dòng (CSV: 2,000,000)  checksum=1199825819086/1399785/2025-12-30
+OK  m2   order_items     5,000,000 dòng (CSV: 5,000,000)  checksum=496786652.04/1834847893079/5000002000000
+OK  m2   reviews         1,500,000 dòng (CSV: 1,500,000)  checksum=5985172/376051/824913626040
+OK  m2   events         12,000,000 dòng (CSV: 12,000,000)  checksum=72000006000000/1200625/5940019892959/2025-12-30 23:59:46
+OK  m3   customers       1,200,000 dòng (CSV: 1,200,000)  checksum=720000600000/26488896/2022-01-01/2025-12-30
+OK  m3   products        1,100,000 dòng (CSV: 1,100,000)  checksum=605000550000/36432222.07/20750683
+OK  m3   orders          2,000,000 dòng (CSV: 2,000,000)  checksum=1199825819086/1399785/2025-12-30
+OK  m3   order_items     5,000,000 dòng (CSV: 5,000,000)  checksum=496786652.04/1834847893079/5000002000000
+OK  m3   reviews         1,500,000 dòng (CSV: 1,500,000)  checksum=5985172/376051/824913626040
+OK  m3   events         12,000,000 dòng (CSV: 12,000,000)  checksum=72000006000000/1200625/5940019892959/2025-12-30 23:59:46
+OK  checksum giống nhau giữa m1, m2, m3 cho bảng customers
+OK  checksum giống nhau giữa m1, m2, m3 cho bảng products
+OK  checksum giống nhau giữa m1, m2, m3 cho bảng orders
+OK  checksum giống nhau giữa m1, m2, m3 cho bảng order_items
+OK  checksum giống nhau giữa m1, m2, m3 cho bảng reviews
+OK  checksum giống nhau giữa m1, m2, m3 cho bảng events
+
+KẾT LUẬN: TẤT CẢ KHỚP

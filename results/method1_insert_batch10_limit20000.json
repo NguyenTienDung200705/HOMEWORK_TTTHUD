@@ -1,0 +1,25 @@
+{
+  "method": "method1_insert_batch10",
+  "schema": "s_b10",
+  "defer_constraints": false,
+  "limit": 20000,
+  "started": "2026-11-19T09:00:38",
+  "host": "Linux 6.18.44-fc-v653, Python 3.13.18",
+  "postgres": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+  "tables": {
+    "customers": {
+      "rows": 20000,
+      "seconds": 1.69,
+      "rows_per_s": 11867
+    }
+  },
+  "timing": {
+    "create_tables_s": 0.007,
+    "constraints_before_load_s": 0.012,
+    "load_only_s": 1.69,
+    "total_s": 1.71
+  },
+  "db_size": "3632 kB",
+  "db_size_bytes": 3719168,
+  "total_rows": 20000
+}

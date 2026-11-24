@@ -1,0 +1,114 @@
+psql:sql/04_exercises.sql:9: NOTICE:  drop cascades to 3 other objects
+DETAIL:  drop cascades to table practice_ex.authors
+drop cascades to table practice_ex.books
+drop cascades to table practice_ex.books_deleted
+=== BÀI 1 (DDL). Tạo bảng books(book_id tự tăng, title, author, price >= 0, stock mặc định 0, published_on) và authors tương ứng ===
+CREATE TABLE
+CREATE TABLE
+=== BÀI 2 (INSERT). Thêm 3 tác giả bằng MỘT câu lệnh, rồi 5 cuốn sách ===
+INSERT 0 3
+INSERT 0 5
+ so_sach 
+---------
+       5
+(1 row)
+
+=== BÀI 3 (UPDATE). Giảm 10% giá các sách xuất bản trước 1950 và còn hàng; in ra các dòng đã sửa ===
+        title        |  price   
+---------------------+----------
+ Dế Mèn phiêu lưu ký | 58500.00
+(1 row)
+
+UPDATE 1
+=== BÀI 4 (UPDATE ... FROM). Tăng 5000 đồng cho mọi sách của tác giả "Nam Cao" ===
+  title   |  price   
+----------+----------
+ Chí Phèo | 60000.00
+(1 row)
+
+UPDATE 1
+=== BÀI 5 (DELETE). Xóa các sách chưa có ngày xuất bản và giá 0; in ra dòng đã xóa ===
+ book_id |          title           
+---------+--------------------------
+       5 | Tập truyện chưa xuất bản
+(1 row)
+
+DELETE 1
+=== BÀI 6 (SELECT + JOIN + GROUP BY). Với mỗi tác giả: số đầu sách, tổng tồn kho, giá cao nhất; tác giả chưa có sách vẫn hiện ===
+INSERT 0 1
+      name       | so_dau_sach | tong_ton | gia_cao_nhat 
+-----------------+-------------+----------+--------------
+ Nguyễn Nhật Ánh |           2 |       50 |     89000.00
+ Nam Cao         |           1 |        0 |     60000.00
+ Tô Hoài         |           1 |       25 |     58500.00
+ Tác giả mới     |           0 |        0 |       (NULL)
+(4 rows)
+
+=== BÀI 7 (ALTER). Thêm cột isbn UNIQUE, đổi tên stock -> in_stock, rồi xóa cột isbn ===
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ column_name  | data_type 
+--------------+-----------
+ book_id      | integer
+ title        | text
+ author_id    | integer
+ price        | numeric
+ in_stock     | integer
+ published_on | date
+(6 rows)
+
+=== BÀI 8 (UPSERT). Nhập kho: nếu đã có sách cùng tựa thì cộng thêm 10 vào tồn, chưa có thì thêm mới ===
+ALTER TABLE
+     title     | in_stock 
+---------------+----------
+ Chí Phèo      |       10
+ Sách mới nhập |       10
+(2 rows)
+
+INSERT 0 2
+=== BÀI 9 (Giao dịch). Chuyển 5 cuốn tồn kho từ "Mắt biếc" sang "Dế Mèn phiêu lưu ký" trong một giao dịch ===
+BEGIN
+UPDATE 1
+UPDATE 1
+COMMIT
+        title        | in_stock 
+---------------------+----------
+ Dế Mèn phiêu lưu ký |       30
+ Mắt biếc            |       35
+(2 rows)
+
+=== BÀI 10 (Ràng buộc). Khóa ngoại chặn xóa tác giả còn sách; xóa được tác giả không có sách ===
+psql:sql/04_exercises.sql:82: NOTICE:  Không xóa được Nam Cao: update or delete on table "authors" violates foreign key constraint "books_author_id_fkey" on table "books"
+DO
+    name     
+-------------
+ Tác giả mới
+(1 row)
+
+DELETE 1
+=== BÀI 11 (TRUNCATE vs DELETE). Xóa sạch books và đặt lại bộ đếm book_id ===
+TRUNCATE TABLE
+ book_id 
+---------
+       1
+(1 row)
+
+INSERT 0 1
+=== BÀI 12 (Tổng hợp). Một câu lệnh duy nhất dùng CTE: xóa sách giá < 10000 và ghi vào bảng books_deleted ===
+CREATE TABLE
+INSERT 0 3
+INSERT 0 2
+   title   
+-----------
+ Sách rẻ A
+ Sách rẻ B
+(2 rows)
+
+    title     
+--------------
+ Sau truncate
+ Sách đắt
+(2 rows)
+
+HOÀN TẤT: các bài tập chạy đúng.

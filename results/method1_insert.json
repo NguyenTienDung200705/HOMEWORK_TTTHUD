@@ -1,0 +1,50 @@
+{
+  "method": "method1_insert",
+  "schema": "m1",
+  "defer_constraints": false,
+  "limit": 0,
+  "started": "2026-11-19T08:54:06",
+  "host": "Linux 6.18.44-fc-v653, Python 3.13.18",
+  "postgres": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+  "tables": {
+    "customers": {
+      "rows": 1200000,
+      "seconds": 12.18,
+      "rows_per_s": 98517
+    },
+    "products": {
+      "rows": 1100000,
+      "seconds": 11.04,
+      "rows_per_s": 99658
+    },
+    "orders": {
+      "rows": 2000000,
+      "seconds": 36.51,
+      "rows_per_s": 54785
+    },
+    "order_items": {
+      "rows": 5000000,
+      "seconds": 127.25,
+      "rows_per_s": 39292
+    },
+    "reviews": {
+      "rows": 1500000,
+      "seconds": 44.69,
+      "rows_per_s": 33562
+    },
+    "events": {
+      "rows": 12000000,
+      "seconds": 141.18,
+      "rows_per_s": 84995
+    }
+  },
+  "timing": {
+    "create_tables_s": 0.007,
+    "constraints_before_load_s": 0.011,
+    "load_only_s": 372.86,
+    "total_s": 372.88
+  },
+  "db_size": "2612 MB",
+  "db_size_bytes": 2738462720,
+  "total_rows": 22800000
+}

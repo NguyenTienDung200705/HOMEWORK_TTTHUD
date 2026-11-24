@@ -1,0 +1,9 @@
+data/*.csv
+data/*.tsv
+data/*.tsv.gz
+data/*.gz
+data/*.part
+.venv/
+__pycache__/
+*.pyc
+.env

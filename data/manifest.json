@@ -1,0 +1,16 @@
+{
+  "dataset": "IMDb Non-Commercial Datasets (Mock/Synthetic)",
+  "scale": 0.02,
+  "seed": 20261124,
+  "generated_at": "2026-11-24 22:41:41",
+  "rows": {
+    "name_basics": 240000,
+    "title_basics": 220000,
+    "title_ratings": 30000,
+    "title_crew": 220000,
+    "title_episode": 160000,
+    "title_principals": 300000
+  },
+  "total_rows": 1170000,
+  "generation_time_seconds": 2.41
+}

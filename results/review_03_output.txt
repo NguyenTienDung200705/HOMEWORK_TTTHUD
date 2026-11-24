@@ -1,0 +1,247 @@
+psql:sql/03_crud_ddl_dml_review.sql:8: NOTICE:  drop cascades to 3 other objects
+DETAIL:  drop cascades to table practice.departments
+drop cascades to table practice.employees
+drop cascades to view practice.v_dept_headcount
+
+################  PHẦN A – DDL (Data Definition Language)  ################
+--- A1. CREATE TABLE: kiểu dữ liệu + ràng buộc ---
+CREATE TABLE
+CREATE TABLE
+                           Table "practice.employees"
+  Column   |     Type      | Collation | Nullable |           Default            
+-----------+---------------+-----------+----------+------------------------------
+ emp_id    | integer       |           | not null | generated always as identity
+ full_name | text          |           | not null | 
+ email     | text          |           |          | 
+ salary    | numeric(12,2) |           | not null | 0
+ dept_id   | integer       |           |          | 
+ hired_on  | date          |           | not null | CURRENT_DATE
+Indexes:
+    "employees_pkey" PRIMARY KEY, btree (emp_id)
+    "employees_email_key" UNIQUE CONSTRAINT, btree (email)
+Check constraints:
+    "employees_salary_check" CHECK (salary >= 0::numeric)
+Foreign-key constraints:
+    "employees_dept_id_fkey" FOREIGN KEY (dept_id) REFERENCES departments(dept_id) ON DELETE SET NULL
+
+--- A2. ALTER TABLE: thêm / đổi / xóa cột, thêm ràng buộc ---
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+--- A3. CREATE INDEX / VIEW / SEQUENCE ---
+CREATE INDEX
+CREATE VIEW
+
+################  PHẦN B – CRUD: CREATE (INSERT)  ################
+--- B1. INSERT một dòng, chỉ định cột (cột còn lại dùng DEFAULT) ---
+INSERT 0 1
+--- B2. INSERT nhiều dòng trong một câu lệnh ---
+INSERT 0 3
+--- B3. INSERT ... RETURNING: lấy luôn khóa vừa sinh ---
+ emp_id |   full_name   |  hired_on  
+--------+---------------+------------
+      1 | Nguyễn Văn An | 2026-11-19
+(1 row)
+
+INSERT 0 1
+INSERT 0 5
+--- B4. INSERT ... SELECT: sao chép dữ liệu từ truy vấn ---
+CREATE TABLE
+INSERT 0 1
+ emp_id | full_name  |   salary    
+--------+------------+-------------
+      6 | Vũ Đức Huy | 12000000.00
+(1 row)
+
+--- B5. UPSERT: INSERT ... ON CONFLICT ---
+ emp_id |   email    |   salary    
+--------+------------+-------------
+      1 | an@corp.vn | 26000000.00
+(1 row)
+
+INSERT 0 1
+INSERT 0 0
+
+################  PHẦN C – CRUD: READ (SELECT)  ################
+ emp_id |   full_name    |   salary    | dept_id 
+--------+----------------+-------------+---------
+      1 | Nguyễn Văn An  | 26000000.00 |       1
+      2 | Trần Thị Bình  | 18000000.00 |       2
+      3 | Lê Minh Châu   | 22000000.00 |       1
+      4 | Phạm Quốc Dũng | 30000000.00 |       1
+      5 | Hoàng Thu Hà   | 15000000.00 |       3
+      6 | Vũ Đức Huy     | 12000000.00 |  (NULL)
+(6 rows)
+
+--- C1. Lọc, sắp xếp, phân trang, NULL ---
+   full_name   |   salary    
+---------------+-------------
+ Nguyễn Văn An | 26000000.00
+ Lê Minh Châu  | 22000000.00
+ Trần Thị Bình | 18000000.00
+(3 rows)
+
+--- C2. JOIN + GROUP BY ---
+    name    | so_nv | luong_tb 
+------------+-------+----------
+ Kỹ thuật   |     3 | 26000000
+ Kinh doanh |     1 | 18000000
+ Nhân sự    |     1 | 15000000
+(3 rows)
+
+--- C3. View ---
+    dept    | headcount 
+------------+-----------
+ Kỹ thuật   |         3
+ Kinh doanh |         1
+ Nhân sự    |         1
+ Kế toán    |         0
+(4 rows)
+
+
+################  PHẦN D – CRUD: UPDATE  ################
+--- D1. UPDATE có WHERE + biểu thức ---
+ emp_id |   full_name    |   salary    
+--------+----------------+-------------
+      1 | Nguyễn Văn An  | 28600000.00
+      3 | Lê Minh Châu   | 24200000.00
+      4 | Phạm Quốc Dũng | 33000000.00
+(3 rows)
+
+UPDATE 3
+--- D2. UPDATE với truy vấn con ---
+ emp_id |   full_name    |  salary  
+--------+----------------+----------
+      4 | Phạm Quốc Dũng | 21800000
+(1 row)
+
+UPDATE 1
+--- D3. UPDATE ... FROM (cập nhật dựa trên bảng khác) ---
+  full_name   |   salary    
+--------------+-------------
+ Hoàng Thu Hà | 15500000.00
+(1 row)
+
+UPDATE 1
+--- D4. Nguy hiểm: UPDATE quên WHERE -> sửa MỌI dòng. Luôn thử trong giao dịch! ---
+BEGIN
+UPDATE 6
+ dong_bi_sua | luong_bang_0 
+-------------+--------------
+           6 |            6
+(1 row)
+
+ROLLBACK
+ luong_bang_0_sau_rollback 
+---------------------------
+                         0
+(1 row)
+
+
+################  PHẦN E – CRUD: DELETE  ################
+--- E1. DELETE có WHERE + RETURNING (thêm một dòng tạm rồi xóa đúng dòng đó) ---
+INSERT 0 1
+ emp_id |     full_name      
+--------+--------------------
+      9 | Nhân viên thử việc
+(1 row)
+
+DELETE 1
+--- E2. DELETE ... USING (xóa dựa trên bảng khác) ---
+ emp_id | full_name  
+--------+------------
+      6 | Vũ Đức Huy
+(1 row)
+
+DELETE 1
+--- E3. Khóa ngoại + ON DELETE SET NULL: xóa phòng ban, nhân viên giữ lại với dept_id = NULL ---
+  full_name   | dept_id 
+--------------+---------
+ Hoàng Thu Hà |       3
+(1 row)
+
+DELETE 1
+  full_name   | dept_id 
+--------------+---------
+ Hoàng Thu Hà |  (NULL)
+(1 row)
+
+
+################  PHẦN F – Ràng buộc: các lỗi thường gặp (bắt bằng DO ... EXCEPTION)  ################
+psql:sql/03_crud_ddl_dml_review.sql:164: NOTICE:  F1 UNIQUE      : trùng email -> duplicate key value violates unique constraint "employees_email_key"
+psql:sql/03_crud_ddl_dml_review.sql:164: NOTICE:  F2 CHECK       : lương âm -> new row for relation "employees" violates check constraint "employees_salary_check"
+psql:sql/03_crud_ddl_dml_review.sql:164: NOTICE:  F3 FOREIGN KEY : phòng ban không tồn tại -> insert or update on table "employees" violates foreign key constraint "employees_dept_id_fkey"
+psql:sql/03_crud_ddl_dml_review.sql:164: NOTICE:  F4 NOT NULL    : thiếu full_name -> null value in column "full_name" of relation "employees" violates not-null constraint
+psql:sql/03_crud_ddl_dml_review.sql:164: NOTICE:  F5 IDENTITY     : không tự gán emp_id -> cannot insert a non-DEFAULT value into column "emp_id"
+DO
+
+################  PHẦN G – Giao dịch, SAVEPOINT, MERGE  ################
+--- G1. SAVEPOINT: hoàn tác một phần ---
+BEGIN
+INSERT 0 1
+SAVEPOINT
+INSERT 0 1
+ROLLBACK
+COMMIT
+    name    
+------------
+ Kỹ thuật
+ Kinh doanh
+ Kế toán
+ R&D
+(4 rows)
+
+--- G2. DDL cũng nằm trong giao dịch ở PostgreSQL (MySQL thì tự COMMIT ngầm) ---
+BEGIN
+CREATE TABLE
+ROLLBACK
+ bang_tam_con_ton_tai 
+----------------------
+ (NULL)
+(1 row)
+
+--- G3. MERGE (PostgreSQL 15+): đồng bộ bảng đích theo bảng nguồn ---
+CREATE TABLE
+INSERT 0 2
+MERGE 2
+   full_name   |    email     |   salary    
+---------------+--------------+-------------
+ Lê Minh Châu  | chau@corp.vn | 40000000.00
+ Nhân viên mới | moi@corp.vn  | 17000000.00
+(2 rows)
+
+
+################  PHẦN H – Xóa dữ liệu: DELETE vs TRUNCATE vs DROP  ################
+--- H1. DELETE không đặt lại bộ đếm identity; TRUNCATE ... RESTART IDENTITY thì có ---
+ emp_id_lon_nhat_hien_tai 
+--------------------------
+                       14
+(1 row)
+
+DELETE 7
+ emp_id 
+--------
+     15
+(1 row)
+
+INSERT 0 1
+TRUNCATE TABLE
+ emp_id 
+--------
+      1
+(1 row)
+
+INSERT 0 1
+--- H2. DROP: xóa cả cấu trúc ---
+DROP TABLE
+ archive_con_ton_tai 
+---------------------
+ (NULL)
+(1 row)
+
+
+HOÀN TẤT: không có lỗi ngoài ý muốn.
